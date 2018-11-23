@@ -17,10 +17,11 @@
     "url": "https://github.com/loreanvictor/connect-platform-package-boilerplate/issues"
   },
   "homepage": "https://github.com/loreanvictor/connect-platform-package-boilerplate#readme",
-  "dependencies": {
-    "connect-platform": "^0.2.10"
+  "peerDependencies": {
+    "connect-platform": "*"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "connect-platform": "^0.2.10"
   }
 }
