@@ -1,27 +1,30 @@
 {
-  "name": "connect-platform-package-boilerplate",
-  "version": "1.0.0",
-  "description": "the boilerplate project for CONNECT platform packages.",
+  "name": "connect-socket.io",
+  "version": "0.1.0",
+  "description": "Socket.io package for socket.io",
   "main": ".",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon app.js & serve public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/loreanvictor/connect-platform-package-boilerplate.git"
+    "url": "git+https://github.com/schultek/connect-socket.io.git"
   },
-  "author": "Eugene Ghanizadeh Khoub <ghanizadeh.eugene@gmail.com>",
+  "author": "Kilian Schulte <kilian@4xschulte.de>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/loreanvictor/connect-platform-package-boilerplate/issues"
+    "url": "https://github.com/schultek/connect-socket.io/issues"
   },
-  "homepage": "https://github.com/loreanvictor/connect-platform-package-boilerplate#readme",
+  "homepage": "https://github.com/schultek/connect-socket.io#readme",
   "peerDependencies": {
     "connect-platform": "*"
   },
   "devDependencies": {
     "connect-platform": "^0.2.17",
     "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "socket.io": "^2.3.0"
   }
 }

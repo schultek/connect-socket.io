@@ -63,3 +63,6 @@ typings/
 # connect platform files
 /secure
 /panel-generated
+
+# testing webapp
+/public

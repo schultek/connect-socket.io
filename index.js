@@ -1,3 +1,29 @@
+
+const platform = require('connect-platform');
+
+const {setupSocketInstance} = require("./instance")
+/**
+ * In order to start the socket.io server, we need the http server of the express app. 
+ * Currently the only way to get it is to hijack the .listen function of the express instance that is called 
+ * during platform startup.
+ */
+platform.subscribe("bind", () => {
+
+  // get and bind the .listen() function of the express instance.
+  let listen = platform.app.listen.bind(platform.app);
+
+  // register our own function handler to implement our custom websocket logic.
+  platform.app.listen = (port, cb) => {
+
+    // call the original handler and store the http server
+    let server = listen(port, cb);
+
+    setupSocketInstance(server);
+
+    return server;
+  }
+})
+
 /**
  *
  * so this is where you define the package details for CONNECT platform.
@@ -32,7 +58,7 @@ module.exports.platform = {
        * package, without the extension.
        *
        */
-      native : ['hellow']
+      native : ['nodes/join', 'nodes/emit', 'nodes/set', 'nodes/get', 'nodes/remove']
     },
     /**
      *
@@ -43,7 +69,11 @@ module.exports.platform = {
      *
      */
     aliases: {
-      '/test/hellow': '/test-package/hellow',
+      '/socket/join': '/connect-socket.io/join',
+      '/socket/emit': '/connect-socket.io/emit',
+      '/socket/set': '/connect-socket.io/set',
+      '/socket/get': '/connect-socket.io/get',
+      '/socket/remove': '/connect-socket.io/remove'
     }
   }
 }
