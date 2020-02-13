@@ -58,7 +58,7 @@ module.exports.platform = {
        * package, without the extension.
        *
        */
-      native : ['nodes/emit']
+      native : ['nodes/emit', 'nodes/broadcast']
     },
     /**
      *
@@ -69,7 +69,8 @@ module.exports.platform = {
      *
      */
     aliases: {
-      '/socket/emit': '/connect-socket.io/emit'
+      '/socket/emit': '/connect-socket.io/emit',
+      '/socket/broadcast': '/connect-socket.io/broadcast'
     }
   }
 }

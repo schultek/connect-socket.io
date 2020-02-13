@@ -15,13 +15,18 @@ function getSocketNodes() {
   return res;
 }
 
+let io = null;
+
+exports.getInstance = function() {
+  return io;
+}
 
 /**
  * Creates and launches a socket.io instance that calls nodes based on incoming messages.
  */
 exports.setupSocketInstance = function (server) {
   // create a socket.io server instance
-  let io = require("socket.io")(server);
+  io = require("socket.io")(server);
 
   // collect all public nodes
   let nodes = getSocketNodes();

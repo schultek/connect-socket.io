@@ -1,7 +1,7 @@
 const platform = require('connect-platform');
 
 /**
- * Broadcasts a message to all sockets in a room.
+ * Emits a message to a socket.
  */
 platform.core.node({
     path: '/connect-socket.io/emit',
@@ -9,7 +9,7 @@ platform.core.node({
     method: 'GET',
     inputs: ['event', 'message'],
     outputs: [],
-    controlOutputs: ["no_socket"],
+    controlOutputs: ["emitted", "no_socket"],
     hints: {
       node: 'emits to the current socket',
       inputs: {
@@ -18,7 +18,8 @@ platform.core.node({
       },
       outputs: {},
       controlOutputs: {
-        "no_socket": "the node call does not come from a websocket request"
+        no_socket: "the node call does not come from a websocket request",
+        emitted: "the event was emitted successfully"
       }
     }
   },
@@ -26,7 +27,8 @@ platform.core.node({
     // socket context parameter must be set
     if (!context.socket) control("no_socket")
     else {
-      socket.emit(inputs.event, inputs.message)
+      context.socket.emit(inputs.event, inputs.message)
+      control("emitted")
     }
   }
 );
