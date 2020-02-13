@@ -8,7 +8,7 @@ platform.core.node({
     public: false,
     method: 'GET',
     inputs: ['event', 'message'],
-    outputs: [],
+    outputs: ["response"],
     controlOutputs: ["emitted", "no_socket"],
     hints: {
       node: 'emits to the current socket',
@@ -16,10 +16,11 @@ platform.core.node({
         event: 'the event id',
         message: 'the message to emit'
       },
-      outputs: {},
+      outputs: {
+        response: "the socket response"
+      },
       controlOutputs: {
-        no_socket: "the node call does not come from a websocket request",
-        emitted: "the event was emitted successfully"
+        no_socket: "the node call does not come from a websocket request"
       }
     }
   },
@@ -27,8 +28,7 @@ platform.core.node({
     // socket context parameter must be set
     if (!context.socket) control("no_socket")
     else {
-      context.socket.emit(inputs.event, inputs.message)
-      control("emitted")
+      context.socket.emit(inputs.event, inputs.message, (response) => output("response", response))
     }
   }
 );
