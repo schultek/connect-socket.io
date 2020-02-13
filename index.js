@@ -58,7 +58,7 @@ module.exports.platform = {
        * package, without the extension.
        *
        */
-      native : ['nodes/join', 'nodes/emit', 'nodes/set', 'nodes/get', 'nodes/remove']
+      native : ['nodes/emit']
     },
     /**
      *
@@ -69,11 +69,7 @@ module.exports.platform = {
      *
      */
     aliases: {
-      '/socket/join': '/connect-socket.io/join',
-      '/socket/emit': '/connect-socket.io/emit',
-      '/socket/set': '/connect-socket.io/set',
-      '/socket/get': '/connect-socket.io/get',
-      '/socket/remove': '/connect-socket.io/remove'
+      '/socket/emit': '/connect-socket.io/emit'
     }
   }
 }

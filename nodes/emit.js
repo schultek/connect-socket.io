@@ -7,14 +7,13 @@ platform.core.node({
     path: '/connect-socket.io/emit',
     public: false,
     method: 'GET',
-    inputs: ['room', 'event', 'message'],
+    inputs: ['event', 'message'],
     outputs: [],
     controlOutputs: ["no_socket"],
     hints: {
-      node: 'broadcasts to a room.',
+      node: 'emits to the current socket',
       inputs: {
-        room: 'the room that shall be emitted to',
-        event: 'the event id to use',
+        event: 'the event id',
         message: 'the message to emit'
       },
       outputs: {},
@@ -27,9 +26,7 @@ platform.core.node({
     // socket context parameter must be set
     if (!context.socket) control("no_socket")
     else {
-      // use socket.io api for broadcasting
-      // TODO: use message queue (pub / sub) architecture (e.g. redis) to support multiple instances
-      socket.to(inputs.room).emit(inputs.event, inputs.message)
+      socket.emit(inputs.event, inputs.message)
     }
   }
 );

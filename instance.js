@@ -71,8 +71,6 @@ exports.setupSocketInstance = function (server) {
     // register a middleware function to receive each sent message
     socket.use((packet) => {
 
-      console.log(packet);
-
       /*
           packet must be array of three parameters:
           1. node path: string
