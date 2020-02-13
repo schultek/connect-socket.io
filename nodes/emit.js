@@ -9,7 +9,7 @@ platform.core.node({
     method: 'GET',
     inputs: ['event', 'message'],
     outputs: ["response"],
-    controlOutputs: ["emitted", "no_socket"],
+    controlOutputs: ["no_socket"],
     hints: {
       node: 'emits to the current socket',
       inputs: {
