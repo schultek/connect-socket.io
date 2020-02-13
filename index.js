@@ -72,5 +72,16 @@ module.exports.platform = {
       '/socket/emit': '/connect-socket.io/emit',
       '/socket/broadcast': '/connect-socket.io/broadcast'
     }
+  },
+  hints: {
+    sampleConfig: {
+      "socket-config": {
+        "event-prefix": "/socket/on/",
+        "event-map": {
+          "connect": "custom-connect-node",
+          "disconnect": "custom-disconnect-node"
+        }
+      }
+    }
   }
 }

@@ -30,6 +30,9 @@ exports.setupSocketInstance = function (server) {
 
   // collect all public nodes
   let nodes = getSocketNodes();
+  let config = platform.config.get("socket-config") || {};
+  let prefix = config["event-prefix"] || "";
+  let pathMap = config["event-map"] || {};
 
   io.on('connection', (socket) => {
 
@@ -37,7 +40,10 @@ exports.setupSocketInstance = function (server) {
 
     // helper function to build the inputs object and call a node
     let callNode = (path, params = {}) => {
-      let signature = nodes.find(n => n.path == path);
+
+      let fullPath = prefix + (pathMap[path] || path);
+
+      let signature = nodes.find(n => n.path == fullPath);
       if (signature) {
         let inputs = {};
         if (signature.inputs) {
@@ -45,32 +51,28 @@ exports.setupSocketInstance = function (server) {
             if (params[input]) inputs[input] = params[input]
           }
         }
+
         // create a callable from the node instance and set the socket as context
-        return platform.core.callable(() => platform.core.registry.instance(signature.path), {
+        return platform.core.callable(() => platform.core.registry.instance(fullPath), {
           socket
         })(inputs)
       } else
-        return Promise.reject("Cannot find socket node for path " + path);
+        return Promise.reject("Cannot find socket node for path " + fullPath);
     }
 
-    // optional node executed on connection
-    // must have the 'on-socket-connect' config parameter set to a node path
-    if (platform.config.has('on-socket-connect')) {
-      callNode(platform.config.get('on-socket-connect'), {
-          id: socket.id
-        })
-        .catch(err => console.warn(err))
-    }
+    callNode("connect", {
+      id: socket.id
+    })
+    .catch(err => console.warn(err))
 
     // optional node executed on disconnect
     // must have the 'on-socket-disconnect' config parameter set to a node path
     socket.on("disconnect", () => {
-      if (platform.config.has('on-socket-disconnect')) {
-        callNode(platform.config.get('on-socket-disconnect'), {
-            id: socket.id
-          })
-          .catch(err => console.warn(err))
-      }
+      callNode("disconnect", {
+        id: socket.id
+      })
+      .catch(err => console.warn(err))
+      
     })
 
     // register a middleware function to receive each sent message
