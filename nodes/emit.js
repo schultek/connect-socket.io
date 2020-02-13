@@ -7,14 +7,14 @@ platform.core.node({
     path: '/connect-socket.io/emit',
     public: false,
     method: 'GET',
-    inputs: ['event', 'message'],
+    inputs: ['event', 'data'],
     outputs: ["response"],
     controlOutputs: ["no_socket"],
     hints: {
       node: 'emits to the current socket',
       inputs: {
         event: 'the event id',
-        message: 'the message to emit'
+        datta: 'the data to emit'
       },
       outputs: {
         response: "the socket response"
@@ -28,7 +28,7 @@ platform.core.node({
     // socket context parameter must be set
     if (!context.socket) control("no_socket")
     else {
-      context.socket.emit(inputs.event, inputs.message, (response) => output("response", response))
+      context.socket.emit(inputs.event, inputs.data, (response) => output("response", response))
     }
   }
 );
